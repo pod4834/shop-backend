@@ -1,23 +1,50 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\Reservation;
 use App\Mail\ReservationReceived; 
-use App\Mail\ReservationConfirmed; // 💡 만약 확정 클래스명이 ReservationConfirmedEmail 이라면 이름을 맞춰주세요!
+use App\Mail\ReservationConfirmed;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 // ----------------------------------------------------
-// 🔴 [이메일 디자인 미리보기 라우트 추가]
+// 🟢 [이메일 인증 공통 처리 로직]
 // ----------------------------------------------------
+$verifyHandler = function (Request $request, $id, $hash) {
+    $user = User::find($id);
 
-// 1. [접수 완료] 메일 미리보기
+    if (! $user) {
+        return redirect('http://localhost:5173/login?error=user_not_found');
+    }
+
+    // 1. 보안 토큰 검증
+    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        return redirect('http://localhost:5173/login?error=invalid_token');
+    }
+
+    // 2. DB email_verified_at 업데이트
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+    }
+
+    // 3. React 로그인 페이지로 리다이렉트
+    return redirect('http://localhost:5173/login?verified=1');
+};
+
+// /api/ 유무에 상관없이 두 경로 모두 수신 처리
+Route::get('/email/verify/{id}/{hash}', $verifyHandler)->name('verification.verify');
+Route::get('/api/email/verify/{id}/{hash}', $verifyHandler);
+
+// ----------------------------------------------------
+// 🔴 [이메일 디자인 미리보기 라우트]
+// ----------------------------------------------------
 Route::get('/preview-email/received', function () {
-    $reservation = Reservation::latest()->first(); // 가장 최근에 들어온 실제 예약 데이터 가져오기
+    $reservation = Reservation::latest()->first();
 
-    // 만약 DB에 예약이 하나도 없다면 가짜 데이터를 보여줍니다.
     if (!$reservation) {
         $reservation = new Reservation([
             'name' => 'テスト(테스트)',
@@ -31,7 +58,6 @@ Route::get('/preview-email/received', function () {
     return new ReservationReceived($reservation);
 });
 
-// 2. [예약 확정] 메일 미리보기
 Route::get('/preview-email/confirmed', function () {
     $reservation = Reservation::latest()->first();
 
@@ -45,5 +71,5 @@ Route::get('/preview-email/confirmed', function () {
         ]);
     }
 
-    return new ReservationConfirmed($reservation); // 확정 메일 클래스명에 맞게 렌더링
+    return new ReservationConfirmed($reservation);
 });

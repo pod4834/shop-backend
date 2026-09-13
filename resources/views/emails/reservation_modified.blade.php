@@ -34,7 +34,7 @@
 
         <div style="text-align: center; margin-bottom: 30px;">
             <p style="font-size: 14px; color: #475569; margin-bottom: 15px;">再度、ご予約の確認・変更・キャンセルが必要な場合は以下のリンクよりお願いいたします。</p>
-            <a href="http://localhost:5174/?manage={{ $reservation->id }}" style="display: inline-block; padding: 15px 30px; background-color: #0f172a; color: #D4AF37; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 15px; letter-spacing: 1px;">
+            <a href="http://localhost:5173/?manage={{ $reservation->id }}" style="display: inline-block; padding: 15px 30px; background-color: #0f172a; color: #D4AF37; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 15px; letter-spacing: 1px;">
                 予約の確認・変更・キャンセル
             </a>
         </div>

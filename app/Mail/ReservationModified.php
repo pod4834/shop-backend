@@ -38,7 +38,7 @@ class ReservationModified extends Mailable
         $body = str_replace('{date}', str_replace('-', '/', $this->reservation->date), $body);
         $body = str_replace('{time}', $this->reservation->time, $body);
         $body = str_replace('{phone}', $this->reservation->phone, $body);
-        $body = str_replace('{manage_url}', 'http://localhost:5174/?manage=' . $this->reservation->id, $body);
+        $body = str_replace('{manage_url}', 'http://localhost:5173/?manage=' . $this->reservation->id, $body);
 
         return $this->subject($template->subject)->text('emails.dynamic_text', ['content' => $body]);
     }

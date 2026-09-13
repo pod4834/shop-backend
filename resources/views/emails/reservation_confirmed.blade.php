@@ -31,8 +31,15 @@
             </p>
         </div>
 
+        <!-- 🟢 추가된 예약 관리 버튼 (포트번호 5173 적용) -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <a href="http://localhost:5173/?manage={{ $reservation->id }}" style="display: inline-block; background-color: #0f172a; color: #ffffff; text-decoration: none; padding: 12px 30px; font-size: 15px; font-weight: bold; border-radius: 4px;">
+                ご予約の確認・変更・キャンセル
+            </a>
+        </div>
+
         <p style="font-size: 14px; line-height: 1.6; color: #64748b; margin-bottom: 40px;">
-            ※ ご予約の変更・キャンセルにつきましては、お手数ですが前日までにお電話にてご連絡をお願いいたします。
+            ※ お電話でのご変更・キャンセルにつきましては、お手数ですが前日までにご連絡をお願いいたします。
         </p>
 
         <hr style="border: none; border-top: 1px solid #e2e8f0; margin-bottom: 20px;">

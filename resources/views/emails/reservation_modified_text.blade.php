@@ -10,7 +10,7 @@
 ▪ お電話番号: {{ $reservation->phone }}
 
 再度、ご予約の確認・変更・キャンセルが必要な場合は以下のリンクよりお願いいたします。
-http://localhost:5174/?manage={{ $reservation->id }}
+http://localhost:5173/?manage={{ $reservation->id }}
 
 ※ オンラインでの変更・キャンセルは前日まで可能です。当日の場合はお手数ですが直接お電話にてご連絡をお願いいたします。
 

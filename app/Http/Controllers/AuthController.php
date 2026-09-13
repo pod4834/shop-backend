@@ -107,7 +107,7 @@ class AuthController extends Controller
                 ]
             );
 
-            $url = "http://localhost:5174/reset-password?token=" . $token . "&email=" . urlencode($user->email);
+            $url = "http://localhost:5173/reset-password?token=" . $token . "&email=" . urlencode($user->email);
             Mail::to($user->email)->send(new ResetPasswordText($user, $url));
 
             return response()->json(['message' => 'パスワード再設定メールを送信しました。'], 200);
